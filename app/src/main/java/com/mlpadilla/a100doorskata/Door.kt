@@ -5,5 +5,6 @@ data class Door (
 )
 
 enum class DoorState {
-    CLOSED
+    CLOSED,
+    OPEN
 }
