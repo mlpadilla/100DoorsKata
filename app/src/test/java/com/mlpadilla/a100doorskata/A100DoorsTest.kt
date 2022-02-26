@@ -2,6 +2,8 @@ package com.mlpadilla.a100doorskata
 
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
 
 class A100DoorsTest: BehaviorSpec ({
     given("a hundred doors in a row") {
@@ -13,7 +15,13 @@ class A100DoorsTest: BehaviorSpec ({
             }
         }
         `when`("passing") {
-            a100doors.pass()
+            val doorsTransformation = mockk<DoorsTransformation>()
+            every { doorsTransformation.invoke(any()) } returns listOf(
+                mockk {
+                    every { state } returns DoorState.OPEN
+                }
+            )
+            a100doors.pass(doorsTransformation)
             then("the doors' state is toggled") {
                 for(door in a100doors.doors) {
                     door.state shouldBe DoorState.OPEN

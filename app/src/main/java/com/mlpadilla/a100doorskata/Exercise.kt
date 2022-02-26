@@ -4,8 +4,11 @@ class Exercise(
     doors: A100DoorsInARow
 ) {
     init {
-        for (i in 0..99) {
-            doors.pass()
+        doors.pass(openAllDoorsTransformation)
+        for (i in 1..99) {
+            doors.pass(identityDoorsTransformation)
         }
     }
 }
+
+private val identityDoorsTransformation: DoorsTransformation = { it }
