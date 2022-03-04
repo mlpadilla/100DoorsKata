@@ -12,8 +12,13 @@ class ExerciseTest: BehaviorSpec({
         `when`("performing the first pass") {
             then("every door is opened") {
                 verifyOrder { doorsMock.pass(openAllDoorsTransformation) }
-                for (i in 1..99) {
-                    verifyOrder { doorsMock.pass(match { it != openAllDoorsTransformation }) }
+            }
+        }
+        `when`("performing the second pass") {
+            then("you only visit every second door and close them") {
+                verifyOrder { doorsMock.pass(closeEverySecondDoorTransformation) }
+                for (i in 2..99) {
+                    verifyOrder { doorsMock.pass(any()) }
                 }
             }
         }

@@ -5,7 +5,8 @@ class Exercise(
 ) {
     init {
         doors.pass(openAllDoorsTransformation)
-        for (i in 1..99) {
+        doors.pass(closeEverySecondDoorTransformation)
+        for (i in 2..99) {
             doors.pass(identityDoorsTransformation)
         }
     }
