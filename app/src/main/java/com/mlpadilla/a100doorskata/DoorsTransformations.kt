@@ -12,3 +12,9 @@ val closeEverySecondDoorTransformation: DoorsTransformation = {
             ?: door.copy(state = DoorState.CLOSED)
     }
 }
+
+val toggleEveryThirdDoorTransformation: DoorsTransformation = {
+    it.mapIndexed { index, door ->
+        door.takeUnless { index % 3 == 2 } ?: door.toggle()
+    }
+}

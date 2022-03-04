@@ -22,6 +22,17 @@ class ExerciseTest: BehaviorSpec({
                 }
             }
         }
+        `when`("performing the third pass") {
+            then("you visit every 3rd door toggling the door's state") {
+                for (i in 0..1) {
+                    verifyOrder { doorsMock.pass(any()) }
+                }
+                verifyOrder { doorsMock.pass(toggleEveryThirdDoorTransformation) }
+                for (i in 3..99) {
+                    verifyOrder { doorsMock.pass(any()) }
+                }
+            }
+        }
         then("there are 100 passes through the doors") {
             verify(exactly = 100) {
                 doorsMock.pass(any())
