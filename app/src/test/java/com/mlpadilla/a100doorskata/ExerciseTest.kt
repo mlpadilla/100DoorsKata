@@ -14,11 +14,9 @@ class ExerciseTest: BehaviorSpec({
         mockkStatic(::toggleEveryXDoorTransformation)
         val openAllDoorsTransformationMock = mockk<(List<Door>) -> List<Door>>(relaxed = true)
         val closeEverySecondDoorTransformationMock = mockk<(List<Door>) -> List<Door>>(relaxed = true)
-        val toggleEveryThirdDoorTransformationMock = mockk<(List<Door>) -> List<Door>>(relaxed = true)
         val toggleEveryXDoorTransformationMock = mockk<(List<Door>) -> List<Door>>(relaxed = true)
         every { openAllDoorsTransformation } returns openAllDoorsTransformationMock
         every { closeEverySecondDoorTransformation } returns closeEverySecondDoorTransformationMock
-        every { toggleEveryThirdDoorTransformation } returns toggleEveryThirdDoorTransformationMock
         every { toggleEveryXDoorTransformation(any()) } returns toggleEveryXDoorTransformationMock
 
         Exercise(doors = doorsMock)
@@ -35,23 +33,12 @@ class ExerciseTest: BehaviorSpec({
                 }
             }
         }
-        `when`("performing the third pass") {
-            then("you visit every 3rd door toggling the door's state") {
+        `when`("performing the rest of passes") {
+            then("you visit every X door toggling the door's state") {
                 for (i in 0..1) {
                     verifyOrder { doorsMock.pass(any()) }
                 }
-                verifyOrder { doorsMock.pass(toggleEveryThirdDoorTransformationMock) }
-                for (i in 3..99) {
-                    verifyOrder { doorsMock.pass(any()) }
-                }
-            }
-        }
-        `when`("performing the rest of passes") {
-            then("continue until you complete the 100th pass only visiting the 100th door") {
-                for (i in 0..2) {
-                    verifyOrder { doorsMock.pass(any()) }
-                }
-                for (i in 3..99) {
+                for (i in 2..99) {
                     verifyOrder { toggleEveryXDoorTransformation(x = i + 1) }
                     verifyOrder { doorsMock.pass(toggleEveryXDoorTransformationMock) }
                 }

@@ -86,42 +86,6 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
         }
     }
 
-    given("a list a number of doors that is a multiplier of 3 (6)") {
-        val toggledThirdDoor = mockk<Door>()
-        val toggledSixthDoor = mockk<Door>()
-        mockkStatic("com.mlpadilla.a100doorskata.DoorKt")
-        val givenDoors = listOf<Door>(
-            mockk(relaxed = true),
-            mockk(relaxed = true),
-            mockk(relaxed = true) {
-                every { toggle() } returns toggledThirdDoor
-            },
-            mockk(relaxed = true),
-            mockk(relaxed = true),
-            mockk(relaxed = true) {
-                every { toggle() } returns toggledSixthDoor
-            }
-        )
-        `when`("invoking toggleEveryThirdDoorTransformation") {
-            val resultingDoors = toggleEveryThirdDoorTransformation(givenDoors)
-            then("every third door is toggled") {
-                verify(exactly = 1) { givenDoors[2].toggle() }
-                verify(exactly = 1) { givenDoors[5].toggle() }
-                resultingDoors[2] shouldBe toggledThirdDoor
-                resultingDoors[5] shouldBe toggledSixthDoor
-            }
-            then("all other doors remain unchanged") {
-                resultingDoors[0] shouldBe givenDoors[0]
-                resultingDoors[1] shouldBe givenDoors[1]
-                resultingDoors[3] shouldBe givenDoors[3]
-                resultingDoors[4] shouldBe givenDoors[4]
-            }
-            then("the resulting list contains as many doors as the original list") {
-                resultingDoors.size shouldBe givenDoors.size
-            }
-        }
-    }
-
     given("a list with a number of doors that is a multiplier of x (list = 8, x = 4)") {
         val toggledXDoor = mockk<Door>()
         val toggled2XDoor = mockk<Door>()
