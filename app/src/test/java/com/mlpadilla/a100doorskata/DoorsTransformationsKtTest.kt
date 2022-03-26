@@ -7,6 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
+import io.mockk.unmockkStatic
 
 class DoorsTransformationsKtTest: BehaviorSpec ({
     given("a list with closed doors") {
@@ -119,5 +120,71 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
                 resultingDoors.size shouldBe givenDoors.size
             }
         }
+    }
+
+    given("a list with a number of doors that is a multiplier of x (list = 8, x = 4)") {
+        val toggledXDoor = mockk<Door>()
+        val toggled2XDoor = mockk<Door>()
+        mockkStatic("com.mlpadilla.a100doorskata.DoorKt")
+        val givenDoors = listOf<Door>(
+            mockk(relaxed = true),
+            mockk(relaxed = true),
+            mockk(relaxed = true),
+            mockk(relaxed = true) {
+                every { toggle() } returns toggledXDoor
+            },
+            mockk(relaxed = true),
+            mockk(relaxed = true),
+            mockk(relaxed = true),
+            mockk(relaxed = true) {
+                every { toggle() } returns toggled2XDoor
+            }
+        )
+        `when`("invoking toggleEveryXDoorTransformation (x = 4)") {
+            val resultingDoors = toggleEveryXDoorTransformation(x = 4)(givenDoors)
+            then("every x door is toggled (4, 8)") {
+                verify(exactly = 1) { givenDoors[3].toggle() }
+                verify(exactly = 1) { givenDoors[7].toggle() }
+                resultingDoors[3] shouldBe toggledXDoor
+                resultingDoors[7] shouldBe toggled2XDoor
+            }
+            then("all other doors remain unchanged") {
+                resultingDoors[0] shouldBe givenDoors[0]
+                resultingDoors[1] shouldBe givenDoors[1]
+                resultingDoors[2] shouldBe givenDoors[2]
+                resultingDoors[4] shouldBe givenDoors[4]
+                resultingDoors[5] shouldBe givenDoors[5]
+                resultingDoors[6] shouldBe givenDoors[6]
+            }
+            then("the resulting list contains as many doors as the original list") {
+                resultingDoors.size shouldBe givenDoors.size
+            }
+        }
+        unmockkStatic("com.mlpadilla.a100doorskata.DoorKt")
+    }
+
+    given("a list of doors (2 doors)") {
+        val toggledXDoor = mockk<Door>()
+        mockkStatic("com.mlpadilla.a100doorskata.DoorKt")
+        val givenDoors = listOf<Door>(
+            mockk(relaxed = true),
+            mockk(relaxed = true) {
+                every { toggle() } returns toggledXDoor
+            },
+        )
+        `when`("invoking toggleEveryXDoorTransformation with x = size of the list (x = 2)") {
+            val resultingDoors = toggleEveryXDoorTransformation(x = 2)(givenDoors)
+            then("only the last door is toggled") {
+                verify(exactly = 1) { givenDoors[1].toggle() }
+                resultingDoors[1] shouldBe toggledXDoor
+            }
+            then("all other doors remain unchanged") {
+                resultingDoors[0] shouldBe givenDoors[0]
+            }
+            then("the resulting list contains as many doors as the original list") {
+                resultingDoors.size shouldBe givenDoors.size
+            }
+        }
+        unmockkStatic("com.mlpadilla.a100doorskata.DoorKt")
     }
 })

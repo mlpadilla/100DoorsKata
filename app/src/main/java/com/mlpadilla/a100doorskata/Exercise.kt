@@ -8,9 +8,7 @@ class Exercise(
         doors.pass(closeEverySecondDoorTransformation)
         doors.pass(toggleEveryThirdDoorTransformation)
         for (i in 3..99) {
-            doors.pass(identityDoorsTransformation)
+            doors.pass(toggleEveryXDoorTransformation(x = i + 1))
         }
     }
 }
-
-private val identityDoorsTransformation: DoorsTransformation = { it }

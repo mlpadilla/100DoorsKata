@@ -18,3 +18,9 @@ val toggleEveryThirdDoorTransformation: DoorsTransformation = {
         door.takeUnless { index % 3 == 2 } ?: door.toggle()
     }
 }
+
+fun toggleEveryXDoorTransformation(x: Int): DoorsTransformation = {
+    it.mapIndexed { index, door ->
+        door.takeUnless { index % x == x - 1 } ?: door.toggle()
+    }
+}
