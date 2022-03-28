@@ -16,7 +16,8 @@ class A100DoorsInARowExtensionsKtTest : BehaviorSpec({
         `when`("printing it to a String") {
             val doorsString = a100doorsInARow.toText()
             then("each door is represented as a char") {
-                doorsString shouldContain "^[a]+\$".toRegex()
+                val onlyACharsRegex = "^[a]+\$".toRegex()
+                doorsString shouldContain onlyACharsRegex
             }
             then("all doors are printed") {
                 doorsString.length shouldBe a100doorsInARow.doors.size
