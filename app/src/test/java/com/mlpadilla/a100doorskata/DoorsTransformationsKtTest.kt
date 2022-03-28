@@ -18,10 +18,12 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
         `when`("invoking openAllDoorsTransformation") {
             val resultingDoors = openAllDoorsTransformation(givenDoors)
             then("all doors are open") {
-                resultingDoors.size shouldBe 2
                 resultingDoors.shouldForAll {
                     it.state shouldBe DoorState.OPEN
                 }
+            }
+            then("the resulting list contains as many doors as the original list") {
+                resultingDoors.size shouldBe 2
             }
         }
     }
@@ -33,11 +35,13 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
         )
         `when`("invoking openAllDoorsTransformation") {
             val resultingDoors = openAllDoorsTransformation(givenDoors)
-            then("all doors are open") {
-                resultingDoors.size shouldBe 2
+            then("all doors are open") { resultingDoors.size shouldBe 2
                 resultingDoors.shouldForAll {
                     it.state shouldBe DoorState.OPEN
                 }
+            }
+            then("the resulting list contains as many doors as the original list") {
+                resultingDoors.size shouldBe 2
             }
         }
     }
@@ -52,14 +56,15 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
         `when`("invoking closeEverySecondDoorTransformation") {
             val resultingDoors = closeEverySecondDoorTransformation(givenDoors)
             then("even doors are closed") {
-                resultingDoors.size shouldBe 4
                 resultingDoors[1].state shouldBe DoorState.CLOSED
                 resultingDoors[3].state shouldBe DoorState.CLOSED
             }
             then("odd doors remain unchanged") {
-                resultingDoors.size shouldBe 4
                 resultingDoors[0].state shouldBe givenDoors[0].state
                 resultingDoors[2].state shouldBe givenDoors[2].state
+            }
+            then("the resulting list contains as many doors as the original list") {
+                resultingDoors.size shouldBe 4
             }
         }
     }
@@ -74,14 +79,15 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
         `when`("invoking closeEverySecondDoorTransformation") {
             val resultingDoors = closeEverySecondDoorTransformation(givenDoors)
             then("even doors are closed") {
-                resultingDoors.size shouldBe 4
                 resultingDoors[1].state shouldBe DoorState.CLOSED
                 resultingDoors[3].state shouldBe DoorState.CLOSED
             }
             then("odd doors remain unchanged") {
-                resultingDoors.size shouldBe 4
                 resultingDoors[0].state shouldBe givenDoors[0].state
                 resultingDoors[2].state shouldBe givenDoors[2].state
+            }
+            then("the resulting list contains as many doors as the original list") {
+                resultingDoors.size shouldBe 4
             }
         }
     }
