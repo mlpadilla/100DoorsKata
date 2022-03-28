@@ -35,7 +35,7 @@ class DoorsTransformationsKtTest: BehaviorSpec ({
         )
         `when`("invoking openAllDoorsTransformation") {
             val resultingDoors = openAllDoorsTransformation(givenDoors)
-            then("all doors are open") { resultingDoors.size shouldBe 2
+            then("all doors are open") {
                 resultingDoors.shouldForAll {
                     it.state shouldBe DoorState.OPEN
                 }
